@@ -8,6 +8,9 @@ import com.akashpatel.usermanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService{
@@ -17,6 +20,17 @@ public class UserService implements IUserService{
         User user = UserMapper.toEntity(userRequestDto);
         User savedUser = userRepository.save(user);
         return UserMapper.toDto(savedUser);
+    }
+
+    @Override
+    public List<UserResponseDto> getAllUser() {
+        List<User> listOfUser = userRepository.findAll();
+        List<UserResponseDto> responseDtos = new ArrayList<>();
+        for( User u:listOfUser){
+
+            responseDtos.add(UserMapper.toDto(u));
+        }
+        return responseDtos;
     }
 
 }
